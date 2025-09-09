@@ -23,7 +23,7 @@
 # *not* include it on all devices, so it is safe even with hardware-specific
 # components.
 
-LOCAL_PATH := $(call my-dir)
+LOCAL_PATH := device/samsung/j3xlte
 
 ifeq ($(TARGET_DEVICE),j3xlte)
 include $(call all-makefiles-under,$(LOCAL_PATH))
