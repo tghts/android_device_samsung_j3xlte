@@ -25,6 +25,6 @@
 
 LOCAL_PATH := device/samsung/j3xlte
 
-ifeq ($(TARGET_DEVICE),j3xlte)
+ifneq ($(filter j3xlte,$(TARGET_DEVICE)),)
 include $(call all-makefiles-under,$(LOCAL_PATH))
 endif
