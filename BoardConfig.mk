@@ -1,6 +1,5 @@
 #
-# Copyright (C) 2016 The CyanogenMod Project
-# Copyright (C) 2017 The LineageOS Project
+# Copyright (C) 2018 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,14 +14,48 @@
 # limitations under the License.
 #
 
-# inherit from samsung sharkls-common
--include device/samsung/sharkls-common/BoardConfigCommon.mk
+# Inherit from sharkls-common
+include device/samsung/sharkls-common/BoardConfigCommon.mk
 
-# kernel
-TARGET_KERNEL_CONFIG := j3xlte_defconfig
-#TARGET_KERNEL_CONFIG := j3xlte_permissive_defconfig
+LOCAL_PATH := device/samsung/j3xlte
+
+TARGET_OTA_ASSERT_DEVICE := j3xlte,j3xlte
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+
+# Include path
+TARGET_SPECIFIC_HEADER_PATH += $(LOCAL_PATH)/include
+
+# Display
+TARGET_SCREEN_DENSITY := 320
+
+# Network Routing
+TARGET_NEEDS_NETD_DIRECT_CONNECT_RULE := true
+
+# RIL
+BOARD_MODEM_TYPE := tss310
+BOARD_PROVIDES_LIBRIL := true
+BOARD_NEEDS_ROAMING_PROTOCOL_FIELD := true
 
 # Init
-TARGET_INIT_VENDOR_LIB := libinit_j3xlte
-TARGET_RECOVERY_DEVICE_MODULES := libinit_j3xlte
+TARGET_INIT_VENDOR_LIB := libinit_j3xltebmc
 
+# Partitions
+BOARD_HAS_NO_MISC_PARTITION:= false
+TARGET_USERIMAGES_USE_EXT4 := true
+#TARGET_USERIMAGES_USE_F2FS := true
+BOARD_FLASH_BLOCK_SIZE := 4096
+
+# Kernel
+TARGET_KERNEL_CONFIG := j3xlte_defconfig
+
+# Shim
+TARGET_LD_SHIM_LIBS += \
+    /system/lib/libcamera_client.so|/vendor/lib/libcamera_client_shim.so \
+    /system/lib/libstagefright.so|/system/lib/libstagefright_shim.so \
+    /system/lib/libexynoscamera.so|/vendor/lib/libexynoscamera_shim.so
+
+# Legacy BLOB Support
+TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
+    /system/vendor/bin/hw/rild=27
